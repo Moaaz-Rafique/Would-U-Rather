@@ -5,6 +5,7 @@ import LeaderBoard from "../containers/leaderboard";
 import AddPoll from "../containers/addPoll";
 import NavBar from "../components/NavBar";
 import { Container } from "@material-ui/core";
+import MyPolls from "../containers/myPolls";
 
 function AppRouter() {
   return (
@@ -17,6 +18,7 @@ function AppRouter() {
           <Route exact path="/home" component={Home} />
           <Route exact path="/leader" component={LeaderBoard} />
           <Route exact path="/add" component={AddPoll} />
+          <Route exact path="/mypolls" component={MyPolls} />
         </Switch>
       </Container>
     </Router>

@@ -1,8 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 import User from "../components/user";
-import { Button, Paper } from "@material-ui/core";
 
 function Login() {
   const users = useSelector((state) => state.users);
@@ -11,6 +9,7 @@ function Login() {
   const setUser = (user) => {
     dispatch({ type: "SETUSER", user: user });
   };
+  dispatch({ type: "LOGIN" });
   // const addUser = () => {
   //   let newUser = {
   //     name: "Adnan",

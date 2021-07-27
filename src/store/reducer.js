@@ -1,6 +1,6 @@
 const INTIAL_STATE = {
   currentUser: 0,
-
+  headersData: [],
   users: [
     {
       name: "Ali",
@@ -21,6 +21,7 @@ const INTIAL_STATE = {
   polls: [
     {
       statement: "Why?",
+
       options: [{ name: "eh" }, { name: "dntknow" }, { name: "what" }],
       creator: 0,
       votes: [
@@ -31,21 +32,18 @@ const INTIAL_STATE = {
     },
     {
       statement: "Where?",
+
       options: [{ name: "eh" }, { name: "dntknow" }, { name: "what" }],
       creator: 1,
       votes: [
         { user: 2, option: 0 },
-        { user: 3, option: 2 },
+        { user: 0, option: 2 },
         { user: 1, option: 1 },
       ],
     },
     {
       statement: "Who?",
-      options: [
-        { name: "eh", votes: 0 },
-        { name: "dntknow", votes: 0 },
-        { name: "what", votes: 0 },
-      ],
+      options: [{ name: "eh" }, { name: "dntknow" }, { name: "what" }],
       creator: 2,
       votes: [
         { user: 2, option: 0 },
@@ -64,10 +62,27 @@ export default (state = INTIAL_STATE, action) => {
         results: action.results,
       };
     case "SETUSER":
-      console.log(action.user);
       return {
         ...state,
         currentUser: action.user,
+        headersData: [
+          {
+            label: "Home",
+            href: "/home",
+          },
+          {
+            label: "Add Polls",
+            href: "/add",
+          },
+          {
+            label: "Leader Board",
+            href: "/leader",
+          },
+          {
+            label: "Log Out",
+            href: "/",
+          },
+        ],
       };
     case "ADDUSER":
       return {
@@ -78,6 +93,7 @@ export default (state = INTIAL_STATE, action) => {
       return {
         ...state,
         polls: [...state.polls, action.poll],
+        users: [...action.users],
       };
     case "ADDVOTE":
       return {
@@ -85,6 +101,13 @@ export default (state = INTIAL_STATE, action) => {
         polls: [...action.polls],
         users: [...action.users],
       };
+    case "LOGIN":
+      return {
+        ...state,
+        headersData: [],
+        currentUser: null,
+      };
+
     default:
       return state;
   }

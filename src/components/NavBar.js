@@ -12,25 +12,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-
-const headersData = [
-  {
-    label: "Home",
-    href: "/home",
-  },
-  {
-    label: "Add Polls",
-    href: "/add",
-  },
-  {
-    label: "Leader Board",
-    href: "/leader",
-  },
-  {
-    label: "Log Out",
-    href: "/",
-  },
-];
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -64,6 +46,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function NavBar() {
+  const headersData = useSelector((state) => state.headersData);
   const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
 
   const [state, setState] = useState({

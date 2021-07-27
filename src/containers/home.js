@@ -6,11 +6,15 @@ function Home() {
   const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser);
-  console.log(currentUser);
   const polls = useSelector((state) => state.polls);
 
   const submitVote = (key, selectedOption) => {
-    console.log(selectedOption);
+    for (let i of polls[key].votes) {
+      if (i.user === currentUser) {
+        alert("Already voted");
+        return;
+      }
+    }
     const newVote = {
       option: selectedOption,
       user: currentUser,
@@ -22,7 +26,7 @@ function Home() {
       ...newPolls[key],
       votes: [...newPolls[key].votes, newVote],
     };
-    console.log(newUsers);
+    console.log(newVote);
     dispatch({ type: "ADDVOTE", polls: newPolls, users: newUsers });
   };
   return (
