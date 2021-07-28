@@ -1,16 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import { Button, Typography } from "@material-ui/core";
-import { useDispatch } from "react-redux";
 
-function PollCard({ poll, submitVote, index }) {
-  const { statement, options, votes, deletePoll } = poll;
+
+
+function PollCard({ poll, submitVote, index, deletePoll,currentUser,users }) {
+  const { statement, options, votes, creator } = poll;
   const [selectedOption, setSelectedOption] = useState(0);
-  const dispatch = useDispatch();
+  // const [canVote,setCanVote]=useState(true)
   const onChangeValue = (e) => {
     setSelectedOption(e.target.value);
   };
+  
   let noOfVotes = votes.length;
+  const optionVotes=[]
+  let voted=false
+  let myVote;
+  for(let i in options){
+    let temp=0;
+    for(let j of votes){      
+      if(i==j.option){
+        temp++
+      }
+      if(currentUser===j.user && !voted){
+        voted=true
+        myVote=options[j.option]
+        console.log('alreadyVoted',statement,options[j.option],currentUser,j.user);
+      }
+    }
+    optionVotes.push(temp);
+  }
   return (
     <Paper
       elevation={1}
@@ -37,17 +56,20 @@ function PollCard({ poll, submitVote, index }) {
           >
             <label>
               {" "}
-              {submitVote ? (
+              {(submitVote && !voted) ? (
                 <input type="radio" name={statement} value={index} />
               ) : (
                 ""
               )}
-              {opt ? <span>{opt.name}</span> : "error"}
+              <span style={{color: (voted && myVote==opt) ? '#400CCC' : 'black'}} >
+                {opt.name}
+                <sub style={{fontSize: '8px'}}> {optionVotes[index] ? optionVotes[index]:''} </sub>
+              </span>
             </label>
           </div>
         );
       })}
-      {submitVote ? (
+      {submitVote  && !voted ? (
         <Button
           variant="outlined"
           style={{
@@ -60,7 +82,7 @@ function PollCard({ poll, submitVote, index }) {
         >
           Submit Vote
         </Button>
-      ) : (
+      ) : !voted ? (
         <Button
           variant="outlined"
           style={{
@@ -73,7 +95,10 @@ function PollCard({ poll, submitVote, index }) {
         >
           Delete Poll
         </Button>
-      )}
+      ): ''}
+      <div>
+        <Typography variant='caption' color='secondary'>by: {users[creator].name}</Typography>
+      </div>
     </Paper>
   );
 }

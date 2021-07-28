@@ -1,13 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
 import PollCard from "../components/PollCard";
 import { Grid } from "@material-ui/core";
+import {useHistory} from 'react-router-dom'
 
 function Home() {
   const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser);
   const polls = useSelector((state) => state.polls);
+  const history = useHistory();
 
+  if(currentUser==null){
+    history.push("/");    
+  }
   const submitVote = (key, selectedOption) => {
     for (let i of polls[key].votes) {
       if (i.user === currentUser) {
@@ -36,9 +41,9 @@ function Home() {
       justifyContent="space-around"
       alignItems="flex-start"
     >
-      {polls.map((poll, i) => {
+      {polls.slice(0).reverse().map((poll, i) => {
         return (
-          <PollCard key={i} index={i} poll={poll} submitVote={submitVote} />
+          <PollCard key={i} index={i} poll={poll} submitVote={submitVote} currentUser={currentUser} users={users}/>
         );
       })}
     </Grid>

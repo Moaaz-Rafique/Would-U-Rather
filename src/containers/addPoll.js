@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import {
   Box,
   Button,
@@ -11,6 +12,11 @@ import {
 function AddPoll() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser);
+  const history = useHistory();
+
+  if(currentUser==null){
+    history.push("/");    
+  }
   const users = useSelector((state) => state.users);
   const [statement, setStatement] = useState("");
   const [options, setOptions] = useState([{ name: "" }, { name: "" }]);
@@ -88,7 +94,6 @@ function AddPoll() {
       />
       <Grid spacing={1}>
         {options.map((option, i) => {
-          console.log(option, "option");
           return (
             <>
               <TextField
