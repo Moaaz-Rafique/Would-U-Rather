@@ -4,6 +4,7 @@ import { Grid } from "@material-ui/core";
 import {useHistory} from 'react-router-dom'
 function MyPolls() {
   const currentUser = useSelector((state) => state.currentUser);
+  const users = useSelector((state) => state.users);
   const history = useHistory();
 
   if(currentUser==null){
@@ -18,7 +19,7 @@ function MyPolls() {
     <Grid>
       {polls.map((poll, i) => {
         return poll.creator == currentUser ? (
-          <PollCard poll={poll} index={i} deletePoll={deletePoll} />
+          <PollCard key={i} poll={poll} index={i} deletePoll={deletePoll} users={users} />
         ) : (
           ""
         );

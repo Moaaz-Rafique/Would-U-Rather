@@ -25,7 +25,6 @@ function PollCard({ poll, submitVote, index, deletePoll,currentUser,users }) {
       if(currentUser===j.user && !voted){
         voted=true
         myVote=options[j.option]
-        console.log('alreadyVoted',statement,options[j.option],currentUser,j.user);
       }
     }
     optionVotes.push(temp);
@@ -97,7 +96,7 @@ function PollCard({ poll, submitVote, index, deletePoll,currentUser,users }) {
         </Button>
       ): ''}
       <div>
-        <Typography variant='caption' color='secondary'>by: {users[creator].name}</Typography>
+        <Typography variant='caption' color='secondary'>Poll by: {users[creator].name}</Typography>
       </div>
     </Paper>
   );

@@ -41,7 +41,7 @@ function Home() {
       justifyContent="space-around"
       alignItems="flex-start"
     >
-      {polls.slice(0).reverse().map((poll, i) => {
+      {polls.map((poll, i) => {
         return (
           <PollCard key={i} index={i} poll={poll} submitVote={submitVote} currentUser={currentUser} users={users}/>
         );

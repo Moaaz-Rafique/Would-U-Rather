@@ -47,6 +47,8 @@ const useStyles = makeStyles(() => ({
 
 export default function NavBar() {
   const headersData = useSelector((state) => state.headersData);
+  const currentUser = useSelector((state) => state.currentUser);
+  
   const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
 
   const [state, setState] = useState({
@@ -72,6 +74,12 @@ export default function NavBar() {
     };
   }, []);
 
+  useEffect(()=>{
+    if(!currentUser){
+      setState((prevState) => ({ ...prevState, drawerOpen: false }))
+    }
+  },[currentUser])
+  
   const displayDesktop = () => {
     return (
       <Toolbar className={toolbar}>
@@ -98,7 +106,7 @@ export default function NavBar() {
             onClick: handleDrawerOpen,
           }}
         >
-          <MenuIcon />
+          {(currentUser!=null) ?<MenuIcon />:''}
         </IconButton>
 
         <Drawer
@@ -157,7 +165,7 @@ export default function NavBar() {
       );
     });
   };
-
+  
   return (
     <header>
       <AppBar className={header}>
