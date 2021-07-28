@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography,Collapse } from "@material-ui/core";
 
 
 
@@ -30,6 +30,7 @@ function PollCard({ poll, submitVote, index, deletePoll,currentUser,users }) {
     optionVotes.push(temp);
   }
   return (
+    
     <Paper
       elevation={1}
       style={{ width: "60%", margin: "20px", padding: "20px" }}
@@ -68,8 +69,26 @@ function PollCard({ poll, submitVote, index, deletePoll,currentUser,users }) {
           </div>
         );
       })}
-      {submitVote  && !voted ? (
-        <Button
+      {
+        deletePoll ? (
+          <Button
+            variant="outlined"
+            style={{
+              marginTop: "20px",
+              padding: "10px",
+            }}
+            onClick={(index) => {
+              deletePoll(index, selectedOption);
+            }}
+          >
+            Delete Poll
+          </Button>
+        ): ''
+      } 
+
+
+    <Collapse in={submitVote && !voted}>
+      <Button
           variant="outlined"
           style={{
             marginTop: "20px",
@@ -81,20 +100,7 @@ function PollCard({ poll, submitVote, index, deletePoll,currentUser,users }) {
         >
           Submit Vote
         </Button>
-      ) : !voted ? (
-        <Button
-          variant="outlined"
-          style={{
-            marginTop: "20px",
-            padding: "10px",
-          }}
-          onClick={(index) => {
-            deletePoll(index, selectedOption);
-          }}
-        >
-          Delete Poll
-        </Button>
-      ): ''}
+    </Collapse>
       <div>
         <Typography variant='caption' color='secondary'>Poll by: {users[creator].name}</Typography>
       </div>

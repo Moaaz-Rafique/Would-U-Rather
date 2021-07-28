@@ -1,19 +1,22 @@
 const INTIAL_STATE = {
-  currentUser: 0,
+  currentUser: null,
   headersData: [],
   users: [
     {
       name: "Ali",
+      image: 'https://idsb.tmgrup.com.tr/2017/07/25/i-revolt-therefore-i-am-in-the-personality-of-muhammad-ali-1501009105456.jpg',
       answeredPolls: 3,
       createdPolls: 1,
     },
     {
-      name: "Ahsan",
+      name: "Iqbal",
+      image: 'https://i.dawn.com/large/2018/11/5be426644a78b.jpg?r=1489738040',
       answeredPolls: 3,
       createdPolls: 1,
     },
     {
       name: "Ahmed",
+      image: 'https://i.redd.it/56wtab9my5z21.jpg',
       answeredPolls: 3,
       createdPolls: 1,
     },
@@ -27,7 +30,6 @@ const INTIAL_STATE = {
       votes: [
         { user: 0, option: 0 },
         { user: 1, option: 2 },
-        { user: 2, option: 1 },
       ],
     },
     {
@@ -38,7 +40,6 @@ const INTIAL_STATE = {
       votes: [
         { user: 2, option: 0 },
         { user: 0, option: 2 },
-        { user: 1, option: 1 },
       ],
     },
     {
@@ -48,7 +49,6 @@ const INTIAL_STATE = {
       votes: [
         { user: 2, option: 0 },
         { user: 1, option: 2 },
-        { user: 0, option: 1 },
       ],
     },
   ],

@@ -1,15 +1,23 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import User from "../components/user";
+import {useEffect} from 'react'
 
 function Login() {
   const users = useSelector((state) => state.users);
+  const currentUser=useSelector((state)=>state.currentUser)
   const dispatch = useDispatch();
 
   const setUser = (user) => {
     dispatch({ type: "SETUSER", user: user });
+    // console.log(user,'user set from login');
   };
-  dispatch({ type: "LOGIN" });
+  useEffect(()=>{
+    if(currentUser!=null){
+      dispatch({ type: "LOGIN" });
+      // console.log(currentUser,'user set null login');
+    }
+  },[])
   // const addUser = () => {
   //   let newUser = {
   //     name: "Adnan",
