@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import { Button, Typography, Collapse } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 function PollCard({ poll, submitVote, index, deletePoll, currentUser, users }) {
   const { statement, options, votes, creator } = poll;
@@ -10,6 +12,20 @@ function PollCard({ poll, submitVote, index, deletePoll, currentUser, users }) {
   const onChangeValue = (e) => {
     setSelectedOption(e.target.value);
   };
+  const BorderLinearProgress = withStyles((theme) => ({
+    root: {
+      height: 10,
+      borderRadius: 5,
+    },
+    colorPrimary: {
+      backgroundColor:
+        theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+    },
+    bar: {
+      borderRadius: 5,
+      backgroundColor: "#1a90ff",
+    },
+  }))(LinearProgress);
 
   let noOfVotes = votes.length;
   const optionVotes = [];
@@ -72,9 +88,14 @@ function PollCard({ poll, submitVote, index, deletePoll, currentUser, users }) {
                 {opt.name}
                 <sub style={{ fontSize: "11px" }}>
                   {" "}
-                  {hoveredOption == index && voted
-                    ? optionVotes[index]
-                    : ""}{" "}
+                  {voted ? (
+                    <BorderLinearProgress
+                      variant="determinate"
+                      value={(optionVotes[index] / noOfVotes) * 100}
+                    />
+                  ) : (
+                    ""
+                  )}{" "}
                 </sub>
               </span>
             </label>

@@ -4,19 +4,20 @@ const INTIAL_STATE = {
   users: [
     {
       name: "Ali",
-      image: 'https://idsb.tmgrup.com.tr/2017/07/25/i-revolt-therefore-i-am-in-the-personality-of-muhammad-ali-1501009105456.jpg',
+      image:
+        "https://idsb.tmgrup.com.tr/2017/07/25/i-revolt-therefore-i-am-in-the-personality-of-muhammad-ali-1501009105456.jpg",
       answeredPolls: 3,
       createdPolls: 1,
     },
     {
       name: "Iqbal",
-      image: 'https://i.dawn.com/large/2018/11/5be426644a78b.jpg?r=1489738040',
+      image: "https://i.dawn.com/large/2018/11/5be426644a78b.jpg?r=1489738040",
       answeredPolls: 3,
       createdPolls: 1,
     },
     {
       name: "Ahmed",
-      image: 'https://i.redd.it/56wtab9my5z21.jpg',
+      image: "https://i.redd.it/56wtab9my5z21.jpg",
       answeredPolls: 3,
       createdPolls: 1,
     },
@@ -79,7 +80,8 @@ export default (state = INTIAL_STATE, action) => {
             href: "/leader",
           },
           {
-            label: "Log Out",
+            label: state.users[action.user].name,
+            image: state.users[action.user].image,
             href: "/",
           },
         ],

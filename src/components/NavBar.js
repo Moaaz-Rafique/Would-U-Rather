@@ -8,18 +8,20 @@ import {
   Drawer,
   Link,
   MenuItem,
+  Select,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Menu } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   header: {
     backgroundColor: "#400CCC",
     paddingRight: "79px",
     paddingLeft: "118px",
-    "@media (max-width: 900px)": {
+    "@media (max-width: 930px)": {
       paddingLeft: 0,
       marginBottom: "20px",
     },
@@ -30,11 +32,17 @@ const useStyles = makeStyles(() => ({
     color: "#FFFEFE",
     textAlign: "left",
   },
+  profileIcon: {
+    height: 20,
+    marginRight: 10,
+    borderRadius: 10,
+  },
   menuButton: {
     fontFamily: "Open Sans, sans-serif",
     fontWeight: 700,
     size: "18px",
     marginLeft: "38px",
+    color: "#fff",
   },
   toolbar: {
     display: "flex",
@@ -48,8 +56,9 @@ const useStyles = makeStyles(() => ({
 export default function NavBar() {
   const headersData = useSelector((state) => state.headersData);
   const currentUser = useSelector((state) => state.currentUser);
-  
-  const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
+
+  const { header, logo, menuButton, profileIcon, toolbar, drawerContainer } =
+    useStyles();
 
   const [state, setState] = useState({
     mobileView: false,
@@ -74,12 +83,12 @@ export default function NavBar() {
     };
   }, []);
 
-  useEffect(()=>{
-    if(!currentUser){
-      setState((prevState) => ({ ...prevState, drawerOpen: false }))
+  useEffect(() => {
+    if (!currentUser) {
+      setState((prevState) => ({ ...prevState, drawerOpen: false }));
     }
-  },[currentUser])
-  
+  }, [currentUser]);
+
   const displayDesktop = () => {
     return (
       <Toolbar className={toolbar}>
@@ -106,7 +115,7 @@ export default function NavBar() {
             onClick: handleDrawerOpen,
           }}
         >
-          {(currentUser!=null) ?<MenuIcon />:''}
+          {currentUser != null ? <MenuIcon /> : ""}
         </IconButton>
 
         <Drawer
@@ -147,25 +156,85 @@ export default function NavBar() {
       Would U Rather
     </Typography>
   );
+  const Logout = ({ label, image, href }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+    return (
+      <div
+        className={menuButton}
+        style={{
+          display: "inline-flex",
+          margin: 10,
+          justifyContent: "flex-end",
+        }}
+      >
+        <Button
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <img src={image} className={profileIcon} />
+          <span style={{ marginTop: 5, marginLeft: 10 }} className={menuButton}>
+            {label}
+          </span>
+        </Button>
+
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+          style={{ marginTop: 30, minWidth: 100 }}
+        >
+          <MenuItem style={{ minWidth: 100, margin: "0px 20px" }}>
+            <Button
+              {...{
+                key: label,
+                color: "inherit",
+                to: href,
+                component: RouterLink,
+              }}
+            >
+              Log out
+            </Button>
+          </MenuItem>
+        </Menu>
+      </div>
+    );
+  };
 
   const getMenuButtons = () => {
-    return headersData.map(({ label, href }) => {
+    return headersData.map(({ label, href, image }) => {
       return (
-        <Button
-          {...{
-            key: label,
-            color: "inherit",
-            to: href,
-            component: RouterLink,
-            className: menuButton,
-          }}
-        >
-          {label}
-        </Button>
+        <>
+          {!image ? (
+            <Button
+              {...{
+                key: label,
+                color: "inherit",
+                to: href,
+                component: RouterLink,
+                className: menuButton,
+              }}
+            >
+              {label}
+            </Button>
+          ) : (
+            <Logout label={label} image={image} href={href} />
+          )}
+        </>
       );
     });
   };
-  
+
   return (
     <header>
       <AppBar className={header}>
